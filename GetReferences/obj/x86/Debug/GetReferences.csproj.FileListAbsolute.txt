@@ -1,0 +1,32 @@
+C:\Users\jnicholson\AppData\Local\Temporary Projects\GetReferences\bin\Debug\GetReferences.exe
+C:\Users\jnicholson\AppData\Local\Temporary Projects\GetReferences\bin\Debug\GetReferences.pdb
+C:\Users\jnicholson\AppData\Local\Temporary Projects\GetReferences\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\jnicholson\AppData\Local\Temporary Projects\GetReferences\obj\x86\Debug\Interop.SwDocumentMgr.dll
+C:\Users\jnicholson\AppData\Local\Temporary Projects\GetReferences\obj\x86\Debug\GetReferences.csproj.ResolveComReference.cache
+C:\Users\jnicholson\AppData\Local\Temporary Projects\GetReferences\obj\x86\Debug\GetReferences.exe
+C:\Users\jnicholson\AppData\Local\Temporary Projects\GetReferences\obj\x86\Debug\GetReferences.pdb
+C:\Users\jnicholson\documents\visual studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\Interop.SwDocumentMgr.dll
+C:\Users\jnicholson\documents\visual studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\GetReferences.csproj.ResolveComReference.cache
+C:\Users\jnicholson\documents\visual studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\GetReferences.exe
+C:\Users\jnicholson\documents\visual studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\GetReferences.pdb
+Z:\Users\jnicholson\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\Interop.SwDocumentMgr.dll
+Z:\Users\jnicholson\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\GetReferences.csproj.ResolveComReference.cache
+Z:\Users\jnicholson\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\GetReferences.exe
+Z:\Users\jnicholson\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\GetReferences.pdb
+Z:\Users\jnicholson\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\bin\Debug\GetReferences.exe
+Z:\Users\jnicholson\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\bin\Debug\GetReferences.pdb
+Z:\Users\jnicholson\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\IE User\My Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\Interop.SwDocumentMgr.dll
+C:\Documents and Settings\IE User\My Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\GetReferences.csproj.ResolveComReference.cache
+C:\Documents and Settings\IE User\My Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\GetReferences.exe
+C:\Documents and Settings\IE User\My Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\GetReferences.pdb
+C:\Documents and Settings\IE User\My Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\bin\Debug\GetReferences.exe
+C:\Documents and Settings\IE User\My Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\bin\Debug\GetReferences.pdb
+C:\Documents and Settings\IE User\My Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\Interop.SwDocumentMgr.dll
+C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\GetReferences.csproj.ResolveComReference.cache
+C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\GetReferences.exe
+C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\GetReferences.pdb
+C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\bin\Debug\GetReferences.exe
+C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\bin\Debug\GetReferences.pdb
+C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\ResolveAssemblyReference.cache
