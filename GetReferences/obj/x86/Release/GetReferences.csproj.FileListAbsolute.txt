@@ -5,3 +5,10 @@ C:\Documents and Settings\IE User\My Documents\Visual Studio 2010\Projects\GetRe
 C:\Documents and Settings\IE User\My Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Release\GetReferences.csproj.ResolveComReference.cache
 C:\Documents and Settings\IE User\My Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Release\GetReferences.exe
 C:\Documents and Settings\IE User\My Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Release\GetReferences.pdb
+C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Release\Interop.SwDocumentMgr.dll
+C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Release\GetReferences.csproj.ResolveComReference.cache
+C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Release\GetReferences.exe
+C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\bin\Release\GetReferences.exe
+C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\bin\Release\GetReferences.pdb
+C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Release\GetReferences.pdb

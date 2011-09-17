@@ -13,7 +13,7 @@ namespace GetReferences
         static SwDMClassFactory dmClassFact;
 
         //  You must obtain this directly from SolidWorks API division
-        static const string SolidWorksDocumentManagerKey ="<Your License Key>";
+        const string SolidWorksDocumentManagerKey = "<Your License Key>";
 
         static void Main(string[] args)
         {
