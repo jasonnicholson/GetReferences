@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="LibreOffice 3.3  (Win32)">
+	<META NAME="CREATED" CONTENT="20110918;19062040">
+	<META NAME="CHANGED" CONTENT="20110918;19390701">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { margin: 0.79in }
+		P { margin-bottom: 0.08in }
+		H1 { margin-bottom: 0.08in }
+		H1.western { font-family: "Arial", sans-serif; font-size: 16pt }
+		H1.cjk { font-family: "Microsoft YaHei"; font-size: 16pt }
+		H1.ctl { font-family: "Mangal"; font-size: 16pt }
+		A:link { so-language: zxx }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<H1 CLASS="western">Example of How Use GetReferences.exe</H1>
+<OL>
+	<LI><P>Get a filelist.  One of the easiest was is to type this at
+	the command line:</P>
+	<P><SPAN STYLE="background: #b3b3b3">dir /b /s *.sldprt *.sldasm
+	*.slddrw *.drw *.prt *.asm  &gt;&gt; filelist.txt</SPAN></P>
+	<LI><P>Open the filelist.txt in Excel or similar.  You should have
+	one column of files. Like below in Illustration 1:</P>
+</OL>
+<P><SPAN ID="Frame1" DIR="LTR" STYLE="float: left; width: 3.56in; height: 3.94in; border: none; padding: 0in; background: #ffffff">
+	<P STYLE="margin-top: 0.08in"><IMG SRC="HOWTO_html_m309dceb.png" NAME="graphics1" ALIGN=LEFT WIDTH=375px Height=469px BORDER=0><BR CLEAR=LEFT><FONT SIZE=3><I>Illustration
+	1</I></FONT></P>
+</SPAN><BR CLEAR=LEFT><BR><BR>
+</P>
+<OL START=3>
+	<LI><P>In column B, use a formula like 
+	</P>
+	<P STYLE="font-style: normal; font-weight: normal; text-decoration: none">
+	<FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN STYLE="background: #b3b3b3"><SPAN STYLE="text-decoration: none">=&quot;GetReferences.exe
+	/q &quot;&amp;CHAR(34)&amp;A2&amp;CHAR(34)&amp;&quot; &gt;output.xls&quot;</SPAN></SPAN></FONT></FONT></P>
+	<P STYLE="font-style: normal; font-weight: normal; text-decoration: none">
+	<FONT FACE="Arial, sans-serif"><FONT SIZE=2><SPAN STYLE="background: transparent"><SPAN STYLE="text-decoration: none">This
+	` have the following result:</SPAN></SPAN></FONT></FONT></P>
+</OL>
+<P><SPAN ID="Frame2" DIR="LTR" STYLE="float: left; width: 8.05in; height: 3.77in; border: none; padding: 0in; background: #ffffff">
+	<P STYLE="margin-top: 0.08in"><IMG SRC="HOWTO_html_39ce5b2.png" NAME="graphics2" ALIGN=LEFT WIDTH=773px Height=362px BORDER=0><BR CLEAR=LEFT><FONT SIZE=3><I>Illustration
+	2</I></FONT></P>
+</SPAN><BR CLEAR=LEFT>	
+</P>
+<P>	Note you can replace &ldquo;GetReferences.exe&rdquo; with the
+path to GetReferences.exe.  For example &ldquo;C:\GetReferences.exe&rdquo;.
+ For beginners, this is the best method.  If your advanced, why are
+reading this?</P>
+<OL START=4>
+	<LI><P>Copy Column B into notepad or some sort of text editor.  Then
+	save the file with a name like &ldquo;Script.bat&rdquo;. With the
+	quotes.  It is important that the quotes are there otherwise the
+	Script.bat will be renamed to Script.bat.txt.  Anyway you do it,
+	just make sure the Script ends in &ldquo;.bat&rdquo;.  See Illustration 3</P>
+</OL>
+<P><SPAN ID="Frame3" DIR="LTR" STYLE="float: left; width: 7.49in; height: 3.91in; border: none; padding: 0in; background: #ffffff">
+	<P STYLE="margin-top: 0.08in"><IMG SRC="HOWTO_html_b155b2d.png" NAME="graphics3" ALIGN=LEFT WIDTH=719px Height=375px BORDER=0><BR CLEAR=LEFT><FONT SIZE=3><I>Illustration
+	3</I></FONT></P>
+</SPAN><BR CLEAR=LEFT><BR><BR>
+</P>
+<OL START=5>
+	<LI><P>Next run the &ldquo;Script.bat&rdquo; file.  
+	</P>
+	<LI><P>Open the &ldquo;output.xls&rdquo; file with Excel or similar.
+	 Reformat and sort, analyze it as you need.  See Illustration 4</P>
+	<P><SPAN ID="Frame4" DIR="LTR" STYLE="float: left; width: 12.41in; height: 6.03in; border: none; padding: 0in; background: #ffffff">
+		<P STYLE="margin-top: 0.08in"><IMG SRC="HOWTO_html_m3c565690.png" NAME="graphics4" ALIGN=LEFT WIDTH=1000px Height=486 BORDER=0><BR CLEAR=LEFT><FONT SIZE=3><I>Illustration
+		4</I></FONT></P>
+	</SPAN><BR CLEAR=LEFT>
+	</P>
+</OL>
+<P><BR><BR>
+</P>
+</BODY>
+</HTML>

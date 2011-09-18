@@ -12,28 +12,47 @@ namespace GetReferences
         static SwDMApplication3 dmDocManager;
         static SwDMClassFactory dmClassFact;
 
-        //  You must obtain this directly from SolidWorks API division
-        const string SolidWorksDocumentManagerKey = "<Your License Key>";
+        //  You must obtain the key directly from SolidWorks API division
+        const string SolidWorksDocumentManagerKey = "<Your License Key Here>";
 
         static void Main(string[] args)
         {
-            //Check that only only one file argument is given.
-            if ((args.Length != 1))
+
+
+            //Takes Care of Error Checking and input parsing
+            string docPath;
+            bool quietMode;
+            switch (args.Length)
             {
-                Console.WriteLine("Only one Filename is accepted. Make sure if the path has spaces you use quotes around it.");
+                case 1:
+                    quietMode = false;
+                    docPath = args[0];
+                    break;
+                case 2:                     
+                    if (args[0] != "/q" )
+                    {
+                        quietMode = false;
+                        inputError(quietMode);
+                        return;
+                    }
+                    quietMode = true;
+                    docPath = args[1];
+                    break;
+                default:
+                    quietMode = false;
+                    inputError(quietMode);
+                    return;
+            }
+            
+            
+            //Get Document Type
+            SwDmDocumentType docType = setDocType(docPath);
+            if (docType == SwDmDocumentType.swDmDocumentUnknown)
+            {
+                inputError(quietMode);
                 return;
             }
-            string docPath = args[0];
 
-            //string docPath = @"C:\PracticeFiles\00688.DRW";
-            //string docPath = @"C:\PracticeFiles\02967.SLDDRW";
-            //string docPath = @"C:\PracticeFiles\02967.SLDPRT";
-            //string docPath = @"C:\PracticeFiles\03000.SLDASM";
-            //string docPath = @"C:\PracticeFiles\2-8255P13.PRT";
-            //string docPath = @"C:\PracticeFiles\3-5681.PRT";
-            //string docPath = @"C:\PracticeFiles\3x1DellBlindmate.asm";
-            //string docPath = @"C:\PracticeFiles\Draw1.slddrw";
-                        
             //Variable initialization
             SwDMDocument dmDoc;
             SwDmDocumentOpenError OpenError;
@@ -42,82 +61,100 @@ namespace GetReferences
             dmClassFact = new SwDMClassFactory();
             dmDocManager = dmClassFact.GetApplication(SolidWorksDocumentManagerKey) as SwDMApplication3;
             
-            //Get Document Type
-            SwDmDocumentType docType = new SwDmDocumentType();
-            docType = setDocType(docPath);
-    
+
             //Open the Document       
             dmDoc = dmDocManager.GetDocument(docPath, docType, true, out OpenError) as SwDMDocument;
             
             //Check that a SolidWorks file is open
             if (dmDoc != null)
             {
-                //Get the references
-                if (docType == SwDmDocumentType.swDmDocumentDrawing)
+                switch (docType)
                 {
-                    GetDrawingReferences(dmDoc);
-                }
-                else if (docType == SwDmDocumentType.swDmDocumentPart || docType == SwDmDocumentType.swDmDocumentAssembly)
-                {
-                    GetPartOrAssemblyReferences(dmDoc);
+                    case SwDmDocumentType.swDmDocumentDrawing:
+                        GetDrawingReferences(dmDoc);
+                        break;
+                    case SwDmDocumentType.swDmDocumentPart:
+                    case SwDmDocumentType.swDmDocumentAssembly:
+                        GetPartOrAssemblyReferences(dmDoc);
+                        break;
+                    default:
+                        inputError(quietMode);
+                        return;
                 }
                 dmDoc.CloseDoc();
             }
             else
             {
-                Console.WriteLine("\"" + docPath + "\"\tUnable to open document. Error: " + OpenError);
+                switch (OpenError)
+                {
+                    case SwDmDocumentOpenError.swDmDocumentOpenErrorFail:
+                        Console.WriteLine(docPath + "\tFile failed to open; reasons could be related to permissions, the file is in use, or the file is corrupted.");
+                        inputError(quietMode);
+                        break;
+                    case SwDmDocumentOpenError.swDmDocumentOpenErrorFileNotFound:
+                        Console.WriteLine(docPath + "\tFile not found");
+                        inputError(quietMode);
+                        break;
+                    case SwDmDocumentOpenError.swDmDocumentOpenErrorNonSW:
+                        Console.Write(docPath + "\tNon-SolidWorks file was opened");
+                        inputError(quietMode);
+                        break;
+                    default:
+                        Console.WriteLine(docPath + "\tAn unknown errror occurred.  Something is wrong with the code of \"GetReferences\"");
+                        inputError(quietMode);
+                        break;
+                }
+
             }
         }
 
+        static void inputError(bool quietMode)
+        {
+            if (quietMode)
+                return;
+ 
+            Console.WriteLine(@"
+Only one Filename is accepted. If the path has spaces use quotes around it.
+Note that the file must have one of the following file extensions: .sldasm,
+.slddrw, .sldprt, .asm, .drw, or .prt.
+
+One options is available.  It must be specified before the Filename.
+
+    /q      Quiet mode.  Suppresses the main error message.  It does
+            not suppress the one line error messages related to problems
+            opening SolidWorks Files.  Quiet mode is useful for batch files
+            when you are directing the output to a file.  The main error 
+            message is suppressed but you are still informed about problems 
+            opening files.
+
+Version 2011-Sept-18 17:30
+Written and Maintained by Jason Nicholson
+http://github.com/jasonnicholson/GetReferences");
+        }
+        
 
 
 
         static SwDmDocumentType setDocType(string docPath)
-        {
-            string fileExtension = docPath.Substring((docPath.Length - 7), 4);
+        {            
+            string fileExtension = System.IO.Path.GetExtension(docPath);
 
-            if (fileExtension.ToUpper() == ".SLD")
+            //Notice no break statement is needed because I used return to get out of the switch statement.
+            switch (fileExtension.ToUpper())
             {
-                string fileExtension2 = docPath.Substring((docPath.Length - 7), 7);
-
-                if (fileExtension2.ToUpper() == ".SLDPRT")
-                {
-                    return SwDmDocumentType.swDmDocumentPart;
-                }
-                else if (fileExtension2.ToUpper() == ".SLDASM")
-                {
+                case ".SLDASM":
+                case ".ASM":
                     return SwDmDocumentType.swDmDocumentAssembly;
-                }
-                else if (fileExtension2.ToUpper() == ".SLDDRW")
-                {
+                case ".SLDDRW":
+                case ".DRW":
                     return SwDmDocumentType.swDmDocumentDrawing;
-                }
-                else
-                {
-                    return SwDmDocumentType.swDmDocumentUnknown;
-                }
-            }
-            else
-            {
-                string fileExtension2 = docPath.Substring((docPath.Length - 4), 4);
-
-                if (fileExtension2.ToUpper() == ".PRT")
-                {
+                case ".SLDPRT":
+                case ".PRT":
                     return SwDmDocumentType.swDmDocumentPart;
-                }
-                else if (fileExtension2.ToUpper() == ".ASM")
-                {
-                    return SwDmDocumentType.swDmDocumentAssembly;
-                }
-                else if (fileExtension2.ToUpper() == ".DRW")
-                {
-                    return SwDmDocumentType.swDmDocumentDrawing;
-                }
-                else
-                {
+                default:
                     return SwDmDocumentType.swDmDocumentUnknown;
-                }
             }
+
         }
 
 
@@ -192,6 +229,5 @@ namespace GetReferences
                 }
             }
         }
-
     }
 }
