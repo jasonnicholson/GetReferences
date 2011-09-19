@@ -16,8 +16,7 @@ namespace GetReferences
         const string SolidWorksDocumentManagerKey = "<Your License Key Here>";
 
         static void Main(string[] args)
-        {
-            
+        {            
             //Takes Care of input checking and input parsing
             string docPath;
             bool quietMode;
@@ -76,7 +75,7 @@ namespace GetReferences
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine("\"" + dmDoc.FullName+ "\"\t\"" + "{0}" + "\tFile is internally damaged, .Net error occurred, or GetReferences.exe has a Bug." +"\"", e);
+                            Console.WriteLine("\"" + dmDoc.FullName + "\"\t\"" + e.Message.Replace(Environment.NewLine, " ") + e.StackTrace.Replace(Environment.NewLine, " ") + "File is internally damaged, .Net error occurred, or GetReferences.exe has a Bug." + "\"");
                             inputError(quietMode);
                         }
                         break;
@@ -88,7 +87,7 @@ namespace GetReferences
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine("\"" + dmDoc.FullName + "\"\t\"" + "{0} Exception caught.  File is internally damaged, .Net error occurred, or GetReferences.exe has a Bug." + "\"", e);
+                            Console.WriteLine("\"" + dmDoc.FullName + "\"\t\"" + e.Message.Replace(Environment.NewLine, " ") + e.StackTrace.Replace(Environment.NewLine, " ") + "File is internally damaged, .Net error occurred, or GetReferences.exe has a Bug." + "\"");
                             inputError(quietMode);
                         }
                         break;
