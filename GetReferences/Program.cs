@@ -17,6 +17,7 @@ namespace GetReferences
 
         static void Main(string[] args)
         {
+            
             //Takes Care of input checking and input parsing
             string docPath;
             bool quietMode;
@@ -145,7 +146,7 @@ Options
             message is suppressed but you are still informed about problems 
             opening files.
 
-Version 2011-Sept-19 09:24
+Version 2011-Sept-19 13:21
 Written and Maintained by Jason Nicholson
 http://github.com/jasonnicholson/GetReferences");
         }
@@ -242,12 +243,13 @@ http://github.com/jasonnicholson/GetReferences");
             {
                 dmExternalReferencesOption.Configuration = parentConfiguration;
                 numberOfExternalReferences = dmPartOrAssembly.GetExternalFeatureReferences(ref dmExternalReferencesOption);
+                
                 //check for no references
-                //if (numberOfExternalReferences == 0)
-                //{
-                //    Console.WriteLine("\"" + dmPartOrAssembly.FullName + "\"\t\"" + parentConfiguration + "\"");
-                //    break;
-                //}
+                if (numberOfExternalReferences == 0)
+                {
+                    Console.WriteLine("\"" + dmPartOrAssembly.FullName + "\"\t\"" + parentConfiguration + "\"");
+                    break;
+                }
                 string[] referenceAndConfigList = new string[numberOfExternalReferences];
                 for (int i = 0; i < numberOfExternalReferences; i++)
                 {
