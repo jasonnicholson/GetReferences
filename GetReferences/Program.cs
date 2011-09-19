@@ -17,9 +17,7 @@ namespace GetReferences
 
         static void Main(string[] args)
         {
-
-
-            //Takes Care of Error Checking and input parsing
+            //Takes Care of input checking and input parsing
             string docPath;
             bool quietMode;
             switch (args.Length)
@@ -28,8 +26,8 @@ namespace GetReferences
                     quietMode = false;
                     docPath = args[0];
                     break;
-                case 2:                     
-                    if (args[0] != "/q" )
+                case 2:
+                    if (args[0] != "/q")
                     {
                         quietMode = false;
                         inputError(quietMode);
@@ -43,8 +41,8 @@ namespace GetReferences
                     inputError(quietMode);
                     return;
             }
-            
-            
+
+
             //Get Document Type
             SwDmDocumentType docType = setDocType(docPath);
             if (docType == SwDmDocumentType.swDmDocumentUnknown)
@@ -60,22 +58,38 @@ namespace GetReferences
             ////Prerequisites
             dmClassFact = new SwDMClassFactory();
             dmDocManager = dmClassFact.GetApplication(SolidWorksDocumentManagerKey) as SwDMApplication3;
-            
+
 
             //Open the Document       
             dmDoc = dmDocManager.GetDocument(docPath, docType, true, out OpenError) as SwDMDocument;
-            
+
             //Check that a SolidWorks file is open
             if (dmDoc != null)
             {
                 switch (docType)
                 {
                     case SwDmDocumentType.swDmDocumentDrawing:
-                        GetDrawingReferences(dmDoc);
+                        try
+                        {
+                            GetDrawingReferences(dmDoc);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("\"" + dmDoc.FullName+ "\"\t\"" + "{0}" + "\tFile is internally damaged, .Net error occurred, or GetReferences.exe has a Bug." +"\"", e);
+                            inputError(quietMode);
+                        }
                         break;
                     case SwDmDocumentType.swDmDocumentPart:
                     case SwDmDocumentType.swDmDocumentAssembly:
-                        GetPartOrAssemblyReferences(dmDoc);
+                        try
+                        {
+                            GetPartOrAssemblyReferences(dmDoc);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("\"" + dmDoc.FullName + "\"\t\"" + "{0} Exception caught.  File is internally damaged, .Net error occurred, or GetReferences.exe has a Bug." + "\"", e);
+                            inputError(quietMode);
+                        }
                         break;
                     default:
                         inputError(quietMode);
@@ -112,31 +126,35 @@ namespace GetReferences
         {
             if (quietMode)
                 return;
- 
+
             Console.WriteLine(@"
+Syntax 
+    [option] [ParentFilePath]
+Output
+    ""ParentFilePath""  ""ParentConfig""    ""ChildFilePath""   ""ChildConfig""
+
 Only one Filename is accepted. If the path has spaces use quotes around it.
 Note that the file must have one of the following file extensions: .sldasm,
 .slddrw, .sldprt, .asm, .drw, or .prt.
 
-One options is available.  It must be specified before the Filename.
-
-    /q      Quiet mode.  Suppresses the main error message.  It does
+Options
+    /q      Quiet mode.  Suppresses the current message.  It does
             not suppress the one line error messages related to problems
             opening SolidWorks Files.  Quiet mode is useful for batch files
             when you are directing the output to a file.  The main error 
             message is suppressed but you are still informed about problems 
             opening files.
 
-Version 2011-Sept-18 17:30
+Version 2011-Sept-19 09:24
 Written and Maintained by Jason Nicholson
 http://github.com/jasonnicholson/GetReferences");
         }
-        
+
 
 
 
         static SwDmDocumentType setDocType(string docPath)
-        {            
+        {
             string fileExtension = System.IO.Path.GetExtension(docPath);
 
             //Notice no break statement is needed because I used return to get out of the switch statement.
@@ -169,7 +187,14 @@ http://github.com/jasonnicholson/GetReferences");
             object vTimeStamp;
 
             string[] reference = dmDrw.GetAllExternalReferences4(dmSearchOptions, out vBrokenRefs, out vIsVirtual, out vTimeStamp);
-            SwDmReferenceStatus[] dmBrokenRefs = vBrokenRefs as SwDmReferenceStatus[];
+            //SwDmReferenceStatus[] dmBrokenRefs = vBrokenRefs as SwDmReferenceStatus[];
+            
+            //check for no references
+            if (reference == null)
+            {
+                Console.WriteLine("\"" + dmDoc.FullName + "\"\t");
+                return;
+            }
 
             SwDMDocument10 dmDrw2 = dmDoc as SwDMDocument10;
             object[] dmDrwViews = dmDrw.GetViews() as object[];
@@ -177,7 +202,7 @@ http://github.com/jasonnicholson/GetReferences");
             string[] referenceFileNames = new string[dmDrwViews.Length];
             string[] configurations = new string[dmDrwViews.Length];
             string[] referenceAndConfigList = new string[dmDrwViews.Length];
-            for (int i=0; i < dmDrwViews.Length; i++)
+            for (int i = 0; i < dmDrwViews.Length; i++)
             {
                 view = dmDrwViews[i] as SwDMView;
                 referenceFileNames[i] = view.ReferencedDocument;
@@ -190,7 +215,7 @@ http://github.com/jasonnicholson/GetReferences");
                         break;
                     }
                 }
-                
+
             }
 
             referenceAndConfigList = referenceAndConfigList.Distinct().ToArray();
@@ -211,16 +236,22 @@ http://github.com/jasonnicholson/GetReferences");
             dmExternalReferencesOption.SearchOption = dmSearchOptions;
             dmExternalReferencesOption.NeedSuppress = true;
             int numberOfExternalReferences;
-
+                        
             string[] configurationNames = dmPartOrAssembly.ConfigurationManager.GetConfigurationNames();
             foreach (string parentConfiguration in configurationNames)
             {
                 dmExternalReferencesOption.Configuration = parentConfiguration;
                 numberOfExternalReferences = dmPartOrAssembly.GetExternalFeatureReferences(ref dmExternalReferencesOption);
+                //check for no references
+                //if (numberOfExternalReferences == 0)
+                //{
+                //    Console.WriteLine("\"" + dmPartOrAssembly.FullName + "\"\t\"" + parentConfiguration + "\"");
+                //    break;
+                //}
                 string[] referenceAndConfigList = new string[numberOfExternalReferences];
                 for (int i = 0; i < numberOfExternalReferences; i++)
                 {
-                    referenceAndConfigList[i] = "\"" + dmPartOrAssembly.FullName + "\"\t\"" + parentConfiguration + "\"\t\"" + dmExternalReferencesOption.ExternalReferences[i] + "\"\t\"" + dmExternalReferencesOption.ReferencedConfigurations[i] + "\""; 
+                    referenceAndConfigList[i] = "\"" + dmPartOrAssembly.FullName + "\"\t\"" + parentConfiguration + "\"\t\"" + dmExternalReferencesOption.ExternalReferences[i] + "\"\t\"" + dmExternalReferencesOption.ReferencedConfigurations[i] + "\"";
                 }
                 referenceAndConfigList = referenceAndConfigList.Distinct().ToArray();
                 foreach (string outputLine in referenceAndConfigList)
