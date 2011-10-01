@@ -1,12 +1,12 @@
 #
 Author: Jason Nicholson  
 Date Started: 2011-Sept-12  
-Last Date of README Update: 2011-Sept-28
+Last Date of README Update: 2011-Oct-1
 
 
 
 #Goal: 
-This project is for creating a console application that obtains the references and their configurations of SolidWorks parts, assemblies, and drawings. 
+This project is for creating a console application that obtains the references.  I would like to return configuration information to but that is not current possible in all cases.  
 
 
 
@@ -28,6 +28,4 @@ An example use of GetReferences is located in: \Documentation\
 If you call GetReferences.exe with no arguments, then the syntax usage displays.
 
 #Known Issues:
--Sometimes the document manager does not return the references of a drawing even though they exist.  This is a problem with the SolidWorks Document Manger and not the code of GetReferences.  The break down occurs when the Document Manager call SwDMDocument13::GetAllExternalReferences4 returns an empty string array but its not "null."  Even trying to access the zeroth element of the string array returns a "out of bounds error."  My hunch is the SolidWorks file is damaged.  Note that in 26,000 test files, only three returned this error.  This error will return the following: "Object reference not set to an instance of an object.   at GetReferences.Program.GetDrawingReferences(SwDMDocument dmDoc)    at GetReferences.Program.Main(String[] args) File is internally damaged, .Net error occurred, or GetReferences.exe has a Bug."  NOte that this error will occur for files that do not have references but the string array returned by SwDMDocument13::GetAllExternalReferences4 is not "null."
-
--It will not return External References for parts with In-Context References.  The proble is with SwDMDocument15.GetExternalFeatureReferences.  SwDMDocument13.GetAllExternalReferences4 returns the correct list of external references but it does not return the path for those references.  It just returns the filename.  The lesser of the two evils seems to be SwDMDocument15.GetExternalFeatureReferences.  If you have suggestions on how to fix this, please contact me.
+-Sometimes the document manager does not return the references of a drawing even though they exist.  This is a problem with the SolidWorks Document Manger and not the code of GetReferences.  The break down occurs when the Document Manager call SwDMDocument13::GetAllExternalReferences4 returns an empty string array but its not "null."  Even trying to access the zeroth element of the string array returns a "out of bounds error."  My hunch is the SolidWorks file is damaged.  Note that in 26,000 test files, only three returned this error.  This error will return the following: "Object reference not set to an instance of an object.   at GetReferences.Program.GetDrawingReferences(SwDMDocument dmDoc)    at GetReferences.Program.Main(String[] args) File is internally damaged, .Net error occurred, or GetReferences.exe has a Bug."  Note that this error will occur for files that do not have references but the string array returned by SwDMDocument13::GetAllExternalReferences4 is not "null."
