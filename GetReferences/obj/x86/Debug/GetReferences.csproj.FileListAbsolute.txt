@@ -30,3 +30,6 @@ C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences
 C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\bin\Debug\GetReferences.exe
 C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\bin\Debug\GetReferences.pdb
 C:\Users\jason\Documents\Visual Studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\jnicholson\documents\visual studio 2010\Projects\GetReferences\GetReferences\bin\Debug\GetReferences.exe
+C:\Users\jnicholson\documents\visual studio 2010\Projects\GetReferences\GetReferences\bin\Debug\GetReferences.pdb
+C:\Users\jnicholson\documents\visual studio 2010\Projects\GetReferences\GetReferences\obj\x86\Debug\ResolveAssemblyReference.cache

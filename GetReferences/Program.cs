@@ -12,132 +12,132 @@ namespace GetReferences
         static SwDMClassFactory dmClassFact;
 
         //  You must obtain the key directly from SolidWorks API division
-        const string SolidWorksDocumentManagerKey = "Insert Your Key Here";
+        const string SolidWorksDocumentManagerKey = "Insert Key Here";
 
         static void Main(string[] args)
         {
-            //Takes Care of input checking and input parsing
-            string docPath;
-            bool quietMode;
-            switch (args.Length)
-            {
-                case 1:
-                    quietMode = false;
-                    if (args[0].Contains("*") || args[0].Contains("?"))
-                    {
-                        inputError(quietMode);
-                        return;
-                    }
-                    docPath = Path.GetFullPath(args[0]);
-                    break;
-                case 2:
-                    if (args[0] != "/q")
-                    {
+                //Takes Care of input checking and input parsing
+                string docPath;
+                bool quietMode;
+                switch (args.Length)
+                {
+                    case 1:
+                        quietMode = false;
+                        if (args[0].Contains("*") || args[0].Contains("?"))
+                        {
+                            inputError(quietMode);
+                            return;
+                        }
+                        docPath = Path.GetFullPath(args[0]);
+                        break;
+                    case 2:
+                        if (args[0] != "/q")
+                        {
+                            quietMode = false;
+                            inputError(quietMode);
+                            return;
+                        }
+                        quietMode = true;
+                        if (args[1].Contains("*") || args[1].Contains("?"))
+                        {
+                            inputError(quietMode);
+                            return;
+                        }
+                        docPath = Path.GetFullPath(args[1]);
+                        break;
+                    default:
                         quietMode = false;
                         inputError(quietMode);
                         return;
-                    }
-                    quietMode = true;
-                    if (args[1].Contains("*") || args[1].Contains("?"))
-                    {
-                        inputError(quietMode);
-                        return;
-                    }
-                    docPath = Path.GetFullPath(args[1]);
-                    break;
-                default:
-                    quietMode = false;
+                }
+
+
+                //Get Document Type
+                SwDmDocumentType docType = setDocType(docPath);
+                if (docType == SwDmDocumentType.swDmDocumentUnknown)
+                {
                     inputError(quietMode);
                     return;
-            }
-
-
-            //Get Document Type
-            SwDmDocumentType docType = setDocType(docPath);
-            if (docType == SwDmDocumentType.swDmDocumentUnknown)
-            {
-                inputError(quietMode);
-                return;
-            }
-
-            //Variable initialization
-            SwDMDocument15 dmDoc;
-            SwDmDocumentOpenError OpenError;
-
-            ////Prerequisites
-            dmClassFact = new SwDMClassFactory();
-            dmDocManager = dmClassFact.GetApplication(SolidWorksDocumentManagerKey) as SwDMApplication3;
-
-
-            //Open the Document       
-            dmDoc = dmDocManager.GetDocument(docPath, docType, true, out OpenError) as SwDMDocument15;
-
-            //Check that a SolidWorks file is open
-            if (dmDoc != null)
-            {
-                switch (docType)
-                {
-                    case SwDmDocumentType.swDmDocumentDrawing:
-                        try
-                        {
-                            GetDrawingReferences(ref dmDoc);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("\"" + dmDoc.FullName + "\"\t\"" + e.Message.Replace(Environment.NewLine, " ") + e.StackTrace.Replace(Environment.NewLine, " ") + "File is internally damaged, .Net error occurred, or GetReferences.exe has a Bug." + "\"");
-                            inputError(quietMode);
-                        }
-                        break;
-                    case SwDmDocumentType.swDmDocumentPart:
-                        try
-                        {
-                            GetPartReferences(ref dmDoc);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("\"" + dmDoc.FullName + "\"\t\"" + e.Message.Replace(Environment.NewLine, " ") + e.StackTrace.Replace(Environment.NewLine, " ") + "File is internally damaged, .Net error occurred, or GetReferences.exe has a Bug." + "\"");
-                            inputError(quietMode);
-                        }
-                        break;
-                    case SwDmDocumentType.swDmDocumentAssembly:
-                        try
-                        {
-                            GetAssemblyReferences(ref dmDoc);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("\"" + dmDoc.FullName + "\"\t\"" + e.Message.Replace(Environment.NewLine, " ") + e.StackTrace.Replace(Environment.NewLine, " ") + "File is internally damaged, .Net error occurred, or GetReferences.exe has a Bug." + "\"");
-                            inputError(quietMode);
-                        }
-                        break;
-                    default:
-                        inputError(quietMode);
-                        return;
                 }
-                dmDoc.CloseDoc();
-            }
-            else
-            {
-                switch (OpenError)
+
+                //Variable initialization
+                SwDMDocument15 dmDoc;
+                SwDmDocumentOpenError OpenError;
+
+                ////Prerequisites
+                dmClassFact = new SwDMClassFactory();
+                dmDocManager = dmClassFact.GetApplication(SolidWorksDocumentManagerKey) as SwDMApplication3;
+
+
+                //Open the Document       
+                dmDoc = dmDocManager.GetDocument(docPath, docType, true, out OpenError) as SwDMDocument15;
+
+                //Check that a SolidWorks file is open
+                if (dmDoc != null)
                 {
-                    case SwDmDocumentOpenError.swDmDocumentOpenErrorFail:
-                        Console.WriteLine("\"" + docPath + "\"\t\"" + "File failed to open; reasons could be related to permissions, the file is in use, or the file is corrupted." + "\"");
-                        inputError(quietMode);
-                        break;
-                    case SwDmDocumentOpenError.swDmDocumentOpenErrorFileNotFound:
-                        Console.WriteLine("\"" + docPath + "\"\t\"" + "File not found" + "\"");
-                        inputError(quietMode);
-                        break;
-                    case SwDmDocumentOpenError.swDmDocumentOpenErrorNonSW:
-                        Console.Write("\"" + docPath + "\"\t\"" + "Non-SolidWorks file was opened" + "\"");
-                        inputError(quietMode);
-                        break;
-                    default:
-                        Console.WriteLine("\"" + docPath + "\"\t\"" + "An unknown errror occurred.  Something is wrong with the code of GetReferences"+"\"");
-                        inputError(quietMode);
-                        break;
+                    switch (docType)
+                    {
+                        case SwDmDocumentType.swDmDocumentDrawing:
+                            try
+                            {
+                                GetDrawingReferences(ref dmDoc);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("\"" + dmDoc.FullName + "\"\t\"" + e.Message.Replace(Environment.NewLine, " ") + e.StackTrace.Replace(Environment.NewLine, " ") + "File is internally damaged, .Net error occurred, or GetReferences.exe has a Bug." + "\"");
+                                inputError(quietMode);
+                            }
+                            break;
+                        case SwDmDocumentType.swDmDocumentPart:
+                            try
+                            {
+                                GetPartReferences(ref dmDoc);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("\"" + dmDoc.FullName + "\"\t\"" + e.Message.Replace(Environment.NewLine, " ") + e.StackTrace.Replace(Environment.NewLine, " ") + "File is internally damaged, .Net error occurred, or GetReferences.exe has a Bug." + "\"");
+                                inputError(quietMode);
+                            }
+                            break;
+                        case SwDmDocumentType.swDmDocumentAssembly:
+                            try
+                            {
+                                GetAssemblyReferences(ref dmDoc);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("\"" + dmDoc.FullName + "\"\t\"" + e.Message.Replace(Environment.NewLine, " ") + e.StackTrace.Replace(Environment.NewLine, " ") + "File is internally damaged, .Net error occurred, or GetReferences.exe has a Bug." + "\"");
+                                inputError(quietMode);
+                            }
+                            break;
+                        default:
+                            inputError(quietMode);
+                            return;
+                    }
+                    dmDoc.CloseDoc();
                 }
-            }
+                else
+                {
+                    switch (OpenError)
+                    {
+                        case SwDmDocumentOpenError.swDmDocumentOpenErrorFail:
+                            Console.WriteLine("\"" + docPath + "\"\t\"" + "File failed to open; reasons could be related to permissions, the file is in use, or the file is corrupted." + "\"");
+                            inputError(quietMode);
+                            break;
+                        case SwDmDocumentOpenError.swDmDocumentOpenErrorFileNotFound:
+                            Console.WriteLine("\"" + docPath + "\"\t\"" + "File not found" + "\"");
+                            inputError(quietMode);
+                            break;
+                        case SwDmDocumentOpenError.swDmDocumentOpenErrorNonSW:
+                            Console.Write("\"" + docPath + "\"\t\"" + "Non-SolidWorks file was opened" + "\"");
+                            inputError(quietMode);
+                            break;
+                        default:
+                            Console.WriteLine("\"" + docPath + "\"\t\"" + "An unknown errror occurred.  Something is wrong with the code of GetReferences" + "\"");
+                            inputError(quietMode);
+                            break;
+                    }
+                }
         }
 
         static void inputError(bool quietMode)
@@ -214,6 +214,12 @@ http://github.com/jasonnicholson/GetReferences");
             object oTimeStamp;
 
             string[] references = dmDrw.GetAllExternalReferences4(dmSearchOptions, out oBrokenRefs, out oIsVirtual, out oTimeStamp);
+
+            if (references == null || references.Length == 0)
+            {
+                Console.WriteLine("\"" + dmDrw.FullName + "\"\t");
+                return;
+            }
 
 
             foreach (string reference in references)
