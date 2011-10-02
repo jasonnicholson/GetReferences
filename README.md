@@ -29,3 +29,32 @@ If you call GetReferences.exe with no arguments, then the syntax usage displays.
 
 #Known Issues:
 -Sometimes the document manager does not return the references of a drawing even though they exist.  This is a problem with the SolidWorks Document Manger and not the code of GetReferences.  The break down occurs when the Document Manager call SwDMDocument13::GetAllExternalReferences4 returns an empty string array but its not "null."  Even trying to access the zeroth element of the string array returns a "out of bounds error."  My hunch is the SolidWorks file is damaged.  Note that in 26,000 test files, only three returned this error.  This error will return the following: "Object reference not set to an instance of an object.   at GetReferences.Program.GetDrawingReferences(SwDMDocument dmDoc)    at GetReferences.Program.Main(String[] args) File is internally damaged, .Net error occurred, or GetReferences.exe has a Bug."  Note that this error will occur for files that do not have references but the string array returned by SwDMDocument13::GetAllExternalReferences4 is not "null."
+
+# Command Line Instructions
+
+Syntax 
+    [option] [ParentFilePath]
+
+Output for Parts
+    ""ParentFilePath""      ""ChildFilePath""
+
+Output for Assemblies
+    ""ParentFilePath""      ""ChildFilePath""   
+
+Output for Assemblies
+    ""ParentFilePath""      ""ChildFilePath""
+
+
+Only one Filename is accepted.  No wildcars allowed. If the path has spaces 
+use quotes around it.  Note that the file must have one of the following 
+file extensions: .sldasm, .slddrw, .sldprt, .asm, .drw, or .prt.  The output
+is tab delimited.  This makes it easy to redirect the output to a text file
+that can be opened as spreadsheet.
+
+Options
+    /q      Quiet mode.  Suppresses the current message.  It does
+            not suppress the one line error messages related to problems
+            opening SolidWorks Files.  Quiet mode is useful for batch files
+            when you are directing the output to a file.  The main error 
+            message is suppressed but you are still informed about problems 
+            opening files.

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SwDocumentMgr;
 using System.IO;
-using System.Diagnostics;
 
 
 namespace GetReferences
@@ -15,19 +12,10 @@ namespace GetReferences
         static SwDMClassFactory dmClassFact;
 
         //  You must obtain the key directly from SolidWorks API division
-        const string SolidWorksDocumentManagerKey = "<Insert Your Key Here>";
+        const string SolidWorksDocumentManagerKey = "Insert Your Key Here";
 
         static void Main(string[] args)
         {
-            //string[] args = { @"C:\PracticeFiles\03000.SLDASM" };
-            //string[] args = { @".\PracticeFiles\03500.SLDPRT" };
-            //string[] args = { @"C:\PracticeFiles\03000.SLDDRW"};
-            //string[] args = { @"C:\PracticeFiles\Copy of 00227.sldprt" };
-            //string[] args = { @"C:\PracticeFiles\#6X.5-PH.SLDPRT" };
-            //string[] args = { @"C:\PracticeFiles\Copy of 02534.sldprt"};
-            //string[] args = { @"C:\PracticeFiles\00839.sldasm"};
-            //string[] args = { @"C:\PracticeFiles\3x1DellBlindmate.asm" };
-
             //Takes Care of input checking and input parsing
             string docPath;
             bool quietMode;
@@ -133,19 +121,19 @@ namespace GetReferences
                 switch (OpenError)
                 {
                     case SwDmDocumentOpenError.swDmDocumentOpenErrorFail:
-                        Console.WriteLine(docPath + "\tFile failed to open; reasons could be related to permissions, the file is in use, or the file is corrupted.");
+                        Console.WriteLine("\"" + docPath + "\"\t\"" + "File failed to open; reasons could be related to permissions, the file is in use, or the file is corrupted." + "\"");
                         inputError(quietMode);
                         break;
                     case SwDmDocumentOpenError.swDmDocumentOpenErrorFileNotFound:
-                        Console.WriteLine(docPath + "\tFile not found");
+                        Console.WriteLine("\"" + docPath + "\"\t\"" + "File not found" + "\"");
                         inputError(quietMode);
                         break;
                     case SwDmDocumentOpenError.swDmDocumentOpenErrorNonSW:
-                        Console.Write(docPath + "\tNon-SolidWorks file was opened");
+                        Console.Write("\"" + docPath + "\"\t\"" + "Non-SolidWorks file was opened" + "\"");
                         inputError(quietMode);
                         break;
                     default:
-                        Console.WriteLine(docPath + "\tAn unknown errror occurred.  Something is wrong with the code of \"GetReferences\"");
+                        Console.WriteLine("\"" + docPath + "\"\t\"" + "An unknown errror occurred.  Something is wrong with the code of GetReferences"+"\"");
                         inputError(quietMode);
                         break;
                 }
@@ -168,7 +156,7 @@ Output for Assemblies
     ""ParentFilePath""      ""ChildFilePath""   
 
 Output for Assemblies
-    ""ParentFilePath""      ""ChildFilePath""   ""ChildConfiguration""
+    ""ParentFilePath""      ""ChildFilePath""
 
 
 Only one Filename is accepted.  No wildcars allowed. If the path has spaces 
@@ -185,7 +173,7 @@ Options
             message is suppressed but you are still informed about problems 
             opening files.
 
-Version 2011-Oct-1 19:08
+Version 2011-Oct-2 15:54
 Written and Maintained by Jason Nicholson
 http://github.com/jasonnicholson/GetReferences");
         }
@@ -227,38 +215,10 @@ http://github.com/jasonnicholson/GetReferences");
 
             string[] references = dmDrw.GetAllExternalReferences4(dmSearchOptions, out oBrokenRefs, out oIsVirtual, out oTimeStamp);
 
-            //check for no references
-            if (references == null || references.Length == 0)
-            {
-                Console.WriteLine("\"" + dmDrw.FullName + "\"\t");
-                return;
-            }
 
-            object[] dmDrwViews = dmDrw.GetViews() as object[];
-            SwDMView view;
-            string[] referenceFileNames = new string[dmDrwViews.Length];
-            string[] configurations = new string[dmDrwViews.Length];
-            string[] referenceAndConfigList = new string[dmDrwViews.Length];
-            for (int i = 0; i < dmDrwViews.Length; i++)
+            foreach (string reference in references)
             {
-                view = dmDrwViews[i] as SwDMView;
-                referenceFileNames[i] = view.ReferencedDocument;
-                configurations[i] = view.ReferencedConfiguration;
-                for (int j = 0; j < references.Length; j++)
-                {
-                    if (System.IO.Path.GetFileName(references[j]).ToUpper() == referenceFileNames[i].ToUpper())
-                    {
-                        referenceAndConfigList[i] = "\"" + dmDrw.FullName + "\"\t\t\"" + references[j] + "\"\t\"" + configurations[i] + "\"";
-                        break;
-                    }
-                }
-
-            }
-
-            referenceAndConfigList = referenceAndConfigList.Distinct().ToArray();
-            foreach (string outputLine in referenceAndConfigList)
-            {
-                Console.WriteLine(outputLine);
+                Console.WriteLine("\"" + dmDrw.FullName + "\"\t\t\"" + reference + "\"\t");
             }
         }
 
