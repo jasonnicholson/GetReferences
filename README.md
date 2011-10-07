@@ -1,7 +1,7 @@
 #
 Author: Jason Nicholson  
 Date Started: 2011-Sept-12  
-Last Date of README Update: 2011-Oct-1
+Last Date of README Update: 2011-Oct-7
 
 
 
@@ -32,29 +32,31 @@ If you call GetReferences.exe with no arguments, then the syntax usage displays.
 
 # Command Line Instructions
 
-Syntax 
-    [option] [ParentFilePath]
-
-Output for Parts
-    ""ParentFilePath""      ""ChildFilePath""
-
-Output for Assemblies
-    ""ParentFilePath""      ""ChildFilePath""   
-
-Output for Assemblies
-    ""ParentFilePath""      ""ChildFilePath""
-
-
-Only one Filename is accepted.  No wildcars allowed. If the path has spaces 
-use quotes around it.  Note that the file must have one of the following 
-file extensions: .sldasm, .slddrw, .sldprt, .asm, .drw, or .prt.  The output
-is tab delimited.  This makes it easy to redirect the output to a text file
-that can be opened as spreadsheet.
-
-Options
-    /q      Quiet mode.  Suppresses the current message.  It does
-            not suppress the one line error messages related to problems
-            opening SolidWorks Files.  Quiet mode is useful for batch files
-            when you are directing the output to a file.  The main error 
-            message is suppressed but you are still informed about problems 
-            opening files.
+    Syntax 
+        [option] [ParentFilePath]
+    
+    Output
+        ""ParentFilePath""      ""ChildFilePath""   ""IsVirtual""   ""IsReferenceBroken""
+    
+    
+    Output if Error Occurs
+        ""ParentFilePath""  ""ErrorMessageAndStackTrace""
+    
+    
+    Only one Filename is accepted.  No wildcars allowed. If the path has spaces 
+    use quotes around it.  Note that the file must have one of the following 
+    file extensions: .sldasm, .slddrw, .sldprt, .asm, .drw, or .prt.  The output
+    is tab delimited.  This makes it easy to redirect the output to a text file
+    that can be opened as spreadsheet.
+    
+    Options
+        /q      Quiet mode.  Suppresses the current message.  It does
+                not suppress the one line error messages related to problems
+                opening SolidWorks Files.  Quiet mode is useful for batch files
+                when you are directing the output to a file.  The main error 
+                message is suppressed but you are still informed about problems 
+                opening files.
+    
+    Version 2011-Oct-7 18:56
+    Written and Maintained by Jason Nicholson
+    http://github.com/jasonnicholson/GetReferences
