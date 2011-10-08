@@ -12,7 +12,7 @@ namespace GetReferences
         static SwDMClassFactory dmClassFact;
 
         //  You must obtain the key directly from SolidWorks API division
-        const string SolidWorksDocumentManagerKey = "<Insert Your Key Here>";
+        const string SolidWorksDocumentManagerKey = "Insert Your Key Here";
 
         static void Main(string[] args)
         {
@@ -199,7 +199,7 @@ http://github.com/jasonnicholson/GetReferences");
             foreach (string reference in references)
             {
                 //check if virtual
-                if (reference.Contains(@"\TEMP\") && reference.Contains("^"))
+                if (reference.ToUpper().Contains(@"\TEMP\") && reference.Contains("^"))
                 {
                     IsVirtual = "Virtual";
                     IsReferenceBroken = "Not Broken";
